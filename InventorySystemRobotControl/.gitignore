@@ -1,0 +1,17 @@
+## Build output
+bin/
+obj/
+
+## IDE stuff
+.vs/
+.idea/
+*.user
+*.suo
+
+## OS junk
+.DS_Store
+Thumbs.db
+
+## Rider caches
+.gradle/
+.rider/
