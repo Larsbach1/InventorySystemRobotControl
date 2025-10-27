@@ -18,3 +18,27 @@ Robotten henter varer fra faste positioner (a, b, c) og flytter dem til position
 2. Kør:
    ```bash
    dotnet run --project InventorySystemRobotControl/InventorySystemRobotControl.csproj
+
+## Flowchart
+flowchart TD
+    A[Start] --> B[Init: Inventory + domain classes]
+    B --> C[Create items (UnitItem, BulkItem)<br/>Assign Id: 1=a, 2=b, 3=c]
+    C --> D[Add stock to Inventory]
+    D --> E[Create test Orders]
+    E --> F[Queue orders in OrderBook]
+    F --> G{More queued orders?}
+    G -- No --> Z[Exit]
+    G -- Yes --> H[ProcessNextOrder(inv)]
+    H --> I[Take next Order]
+    I --> J[Filter to unit lines]
+    J --> K{Processed < 3?}
+    K -- No --> R[Finish order<br/>Update revenue]
+    K -- Yes --> L[Map Item.Id → a/b/c coords<br/>(Coordinates.SourceByItemId)]
+    L --> M[Set target = S()]
+    M --> N[Generate URScript<br/>(UrScript.MakePickPlace)]
+    N --> O{Simulator available?}
+    O -- Yes --> P[Robot.SendProgram(script, item_id)]
+    O -- No --> Q[Print script to console]
+    P --> S[Update inventory; add to processed]
+    Q --> S
+    S --> G
